@@ -1,3 +1,12 @@
 p {
   font-family: Lato;
 }
+.container {
+  width: 100%;
+  display: flex;
+}
+.inner-container {
+  width: 80%;
+  margin: auto;
+  background-color: lawngreen;
+}
