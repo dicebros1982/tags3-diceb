@@ -1,27 +1,41 @@
 <mat-card>
-  <mat-card-content>
-    <form>
-      <p>
-        <mat-form-field class="input-wide">
-          <input matInput placeholder="tag" />
+	<mat-card-content>
+		<form>
+			<label>Choose the type of hashtag you want to make:</label>
+			<p>
+				<mat-radio-group color="primary" [(ngModel)]="tagOptions.relation"
+					[ngModelOptions]="{standalone: true}">
+					<mat-radio-button class="radio_btn" value="parent">parent tag</mat-radio-button>
+					<mat-radio-button class="radio_btn" value="child">child tag</mat-radio-button>
+				</mat-radio-group>
+			</p>
+			<br>
+			<p>
+				<label>Provide a name for your hashtag:</label>
+				<mat-form-field class="input-wide">
+					<input matInput placeholder="tag" />
         </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field class="input-wide">
-          <textarea matInput placeholder="description"></textarea>
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field>
-          <mat-select [(ngModel)]="selectedVal" name="sections">
-            <mat-option *ngFor="let section of sections | async" [value]="section.name">{{
-              section.name
+			</p>
+			<br>
+			<p>
+				<label>Provide a description for your hashtag:</label>
+				<mat-form-field class="input-wide">
+					<textarea matInput placeholder="description"></textarea>
+				</mat-form-field>
+			</p>
+			<br>
+			<p>
+				<label>Pick the section the hashtag should appear in:</label>
+				<mat-form-field>
+					<mat-select [(ngModel)]="tagOptions.section" name="sections">
+						<mat-option *ngFor="let section of sections | async" [value]="section.id">{{
+              section.id
             }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </p>
-      <br />
-      <button class="form-btn" mat-raised-button color="primary">create</button>
-    </form>
-  </mat-card-content>
+					</mat-select>
+				</mat-form-field>
+			</p>
+			<br />
+			<button class="form-btn" mat-raised-button color="primary">create</button>
+		</form>
+	</mat-card-content>
 </mat-card>
