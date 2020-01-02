@@ -3,7 +3,7 @@
 		<form>
 			<label>Choose the type of hashtag you want to make:</label>
 			<p>
-				<mat-radio-group color="primary" [(ngModel)]="tagOptions.relation"
+				<mat-radio-group color="primary" [(ngModel)]="relationOptions"
 					[ngModelOptions]="{standalone: true}">
 					<mat-radio-button class="radio_btn" value="parent">parent tag</mat-radio-button>
 					<mat-radio-button class="radio_btn" value="child">child tag</mat-radio-button>
@@ -27,9 +27,19 @@
 			<p>
 				<label>Pick the section the hashtag should appear in:</label>
 				<mat-form-field>
-					<mat-select [(ngModel)]="tagOptions.section" name="sections">
+					<mat-select [(ngModel)]="sectionOptions" [ngModelOptions]="{standalone: true}" (ngModelChange)="getParentTags($event)">
 						<mat-option *ngFor="let section of sections | async" [value]="section.id">{{
-              section.id
+              section.name
+            }}</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</p>
+			<p>
+				<label>Pick the section the hashtag should appear in:</label>
+				<mat-form-field>
+					<mat-select [(ngModel)]="parentOptions" [ngModelOptions]="{standalone: true}">
+						<mat-option *ngFor="let parent of parents | async" [value]="parent.id">{{
+              parent.name
             }}</mat-option>
 					</mat-select>
 				</mat-form-field>
@@ -39,3 +49,4 @@
 		</form>
 	</mat-card-content>
 </mat-card>
+{{sectionOptions}}

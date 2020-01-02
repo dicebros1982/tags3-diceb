@@ -12,24 +12,43 @@ import { map } from "rxjs/operators";
   providedIn: "root"
 })
 export class TagsService {
-  private sections: AngularFirestoreCollection<Section>;
-  private parentTags: AngularFirestoreCollection<ParentTag>;
+  private sectionCollection: AngularFirestoreCollection<Section>;
+  private parentTagCollection: AngularFirestoreCollection<ParentTag>;
 
   constructor(private db: AngularFirestore) {
-    this.sections = this.db.collection<Section>("sections");
+    this.sectionCollection = this.db.collection<Section>("sections");
+    this.parentTagCollection = this.db.collection<ParentTag>("categoryTags");
   }
 
   getSections() {
-    return this.sections.snapshotChanges().pipe(
-      map(actions => {
+    return this.sectionCollection.snapshotChanges().pipe(
+      map(actions =>
         actions.map(a => {
-          const id = a.payload.doc.id;
           const data = a.payload.doc.data() as Section;
+          const id = a.payload.doc.id;
           return { id, ...data };
-        });
-      })
+        })
+      )
     );
   }
 
-  getParentTags() {}
+  getParentTags(section: string) {
+    if (section) {
+      return this.db
+        .collection<ParentTag>("categoryTags", ref =>
+          ref.where("section", "==", section)
+        )
+        .snapshotChanges()
+        .pipe(
+          map(actions =>
+            actions.map(a => {
+              const data = a.payload.doc.data() as ParentTag;
+              const id = a.payload.doc.id;
+              console.log(data);
+              return { id, ...data };
+            })
+          )
+        );
+    }
+  }
 }

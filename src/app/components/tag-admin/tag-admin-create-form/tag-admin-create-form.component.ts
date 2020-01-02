@@ -8,17 +8,22 @@ import { Observable } from "rxjs";
   styleUrls: ["./tag-admin-create-form.component.css"]
 })
 export class TagAdminCreateFormComponent implements OnInit {
-  sections: Observable<any>;
-  selectedVal: string;
-  tagOptions: Object = {};
+  sections: Observable<any[]>;
+  parents: Observable<any[]>;
+  relationOptions: Object = {};
+  sectionOptions: String;
+  parentOptions: Object = {};
+
   constructor(private tagService: TagsService) {}
 
   ngOnInit() {
-    this.getSections();
+    this.sections = this.getSections();
   }
 
   getSections() {
-    this.sections = this.tagService.getSections();
-    console.log(this.sections);
+    return this.tagService.getSections();
+  }
+  getParentTags(input) {
+    this.parents = this.tagService.getParentTags(input);
   }
 }
