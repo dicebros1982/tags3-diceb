@@ -1,52 +1,63 @@
 <mat-card>
-	<mat-card-content>
-		<form>
-			<label>Choose the type of hashtag you want to make:</label>
-			<p>
-				<mat-radio-group color="primary" [(ngModel)]="relationOptions"
-					[ngModelOptions]="{standalone: true}">
-					<mat-radio-button class="radio_btn" value="parent">parent tag</mat-radio-button>
-					<mat-radio-button class="radio_btn" value="child">child tag</mat-radio-button>
-				</mat-radio-group>
-			</p>
-			<br>
-			<p>
-				<label>Provide a name for your hashtag:</label>
-				<mat-form-field class="input-wide">
-					<input matInput placeholder="tag" />
+  <mat-card-content>
+    <form>
+      <label>Choose the type of hashtag you want to make:</label>
+      <p>
+        <mat-radio-group
+          color="primary"
+          [(ngModel)]="isChildTag"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          <mat-radio-button class="radio_btn" value="false">parent tag</mat-radio-button>
+          <mat-radio-button class="radio_btn" value="true" #child>child tag</mat-radio-button>
+        </mat-radio-group>
+        {{ isChildTag }}
+      </p>
+      <br />
+      <p>
+        <label>Provide a name for your hashtag:</label>
+        <mat-form-field class="input-wide">
+          <input matInput placeholder="tag" />
         </mat-form-field>
-			</p>
-			<br>
-			<p>
-				<label>Provide a description for your hashtag:</label>
-				<mat-form-field class="input-wide">
-					<textarea matInput placeholder="description"></textarea>
-				</mat-form-field>
-			</p>
-			<br>
-			<p>
-				<label>Pick the section the hashtag should appear in:</label>
-				<mat-form-field>
-					<mat-select [(ngModel)]="sectionOptions" [ngModelOptions]="{standalone: true}" (ngModelChange)="getParentTags($event)">
-						<mat-option *ngFor="let section of sections | async" [value]="section.id">{{
+      </p>
+      <br />
+      <p>
+        <label>Provide a description for your hashtag:</label>
+        <mat-form-field class="input-wide">
+          <textarea matInput placeholder="description"></textarea>
+        </mat-form-field>
+      </p>
+      <br />
+      <p>
+        <label>Pick the section the hashtag should appear in:</label>
+        <mat-form-field>
+          <mat-select
+            [(ngModel)]="sectionOptions"
+            [ngModelOptions]="{ standalone: true }"
+            (ngModelChange)="getParentTags($event)"
+          >
+            <mat-option *ngFor="let section of sections | async" [value]="section.id">{{
               section.name
             }}</mat-option>
-					</mat-select>
-				</mat-form-field>
-			</p>
-			<p>
-				<label>Pick the section the hashtag should appear in:</label>
-				<mat-form-field>
-					<mat-select [(ngModel)]="parentOptions" [ngModelOptions]="{standalone: true}">
-						<mat-option *ngFor="let parent of parents | async" [value]="parent.id">{{
-              parent.name
-            }}</mat-option>
-					</mat-select>
-				</mat-form-field>
-			</p>
-			<br />
-			<button class="form-btn" mat-raised-button color="primary">create</button>
-		</form>
-	</mat-card-content>
+          </mat-select>
+        </mat-form-field>
+      </p>
+      <div *ngIf="child.checked">
+        <p>
+          <label>Pick the section the hashtag should appear in:</label>
+          <mat-form-field>
+            <mat-select [(ngModel)]="parentOptions" [ngModelOptions]="{ standalone: true }">
+              <mat-option *ngFor="let parent of parents | async" [value]="parent.id">{{
+                parent.name
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </p>
+      </div>
+
+      <br />
+      <button class="form-btn" mat-raised-button color="primary">create</button>
+    </form>
+  </mat-card-content>
 </mat-card>
-{{sectionOptions}}
+{{ sectionOptions }}
