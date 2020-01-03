@@ -49,4 +49,7 @@ export class TagsService {
         )
       );
   }
+  submitParent(input: ParentTag) {
+    this.parentTagCollection.add(input);
+  }
 }

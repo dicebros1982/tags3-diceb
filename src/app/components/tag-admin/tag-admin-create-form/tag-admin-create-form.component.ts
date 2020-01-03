@@ -82,6 +82,8 @@ export class TagAdminCreateFormComponent implements OnInit {
     const section = formVal.section;
 
     const pushVal = { name, description, section, created };
+
+    this.tagService.submitParent(pushVal);
   }
 
   submitChild() {
