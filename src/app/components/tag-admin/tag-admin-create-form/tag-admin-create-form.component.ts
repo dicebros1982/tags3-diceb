@@ -33,6 +33,7 @@ export class TagAdminCreateFormComponent implements OnInit {
   getSections() {
     return this.tagService.getSections();
   }
+  // load parent tag based on section input
   getParentTags(input: string) {
     this.parents = this.tagService.getParentTags(input);
   }
@@ -64,5 +65,26 @@ export class TagAdminCreateFormComponent implements OnInit {
     return this.tagForm.get("parentTag");
   }
 
-  onsubmit() {}
+  onSubmit() {
+    const relation = this.tagForm.value.relation;
+    if (relation === "parent") {
+      this.submitParent();
+    }
+    if (relation === "child") {
+      this.submitChild();
+    }
+  }
+  submitParent() {
+    const formVal = this.tagForm.value;
+    const created = new Date();
+    const name = formVal.name;
+    const description = formVal.description;
+    const section = formVal.section;
+
+    const pushVal = { name, description, section, created };
+  }
+
+  submitChild() {
+    console.log("child");
+  }
 }
