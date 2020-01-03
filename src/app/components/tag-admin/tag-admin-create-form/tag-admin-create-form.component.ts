@@ -23,7 +23,7 @@ export class TagAdminCreateFormComponent implements OnInit {
   buildForm() {
     this.tagForm = this.fb.group({
       relation: ["parent"],
-      name: ["", [Validators.required]],
+      name: ["", [Validators.required, Validators.pattern("#\\w+")]],
       description: ["", [Validators.required]],
       section: ["", [Validators.required]],
       parentTag: [""]

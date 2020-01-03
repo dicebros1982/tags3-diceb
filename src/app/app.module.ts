@@ -10,7 +10,6 @@ import { TagAdminComponent } from "./components/tag-admin/tag-admin.component";
 import { TagAdminListComponent } from "./components/tag-admin/tag-admin-list/tag-admin-list.component";
 import { TagAdminCreateFormComponent } from "./components/tag-admin/tag-admin-create-form/tag-admin-create-form.component";
 import { environment } from "../environments";
-import { TagAdminCreateFormTestComponent } from "./components/tag-admin/tag-admin-create-form-test/tag-admin-create-form-test.component";
 
 @NgModule({
   imports: [
@@ -25,8 +24,7 @@ import { TagAdminCreateFormTestComponent } from "./components/tag-admin/tag-admi
     AppComponent,
     TagAdminComponent,
     TagAdminListComponent,
-    TagAdminCreateFormComponent,
-    TagAdminCreateFormTestComponent
+    TagAdminCreateFormComponent
   ],
   bootstrap: [AppComponent]
 })
