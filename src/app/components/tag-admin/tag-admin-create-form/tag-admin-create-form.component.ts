@@ -1,19 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { TagsService } from '../../../services/tags.service';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from "@angular/core";
+import { TagsService } from "../../../services/tags.service";
+import { Observable } from "rxjs";
+import { FormGroup } from "@angular/forms";
 
 @Component({
-  selector: 'app-tag-admin-create-form',
-  templateUrl: './tag-admin-create-form.component.html',
-  styleUrls: ['./tag-admin-create-form.component.css']
+  selector: "app-tag-admin-create-form",
+  templateUrl: "./tag-admin-create-form.component.html",
+  styleUrls: ["./tag-admin-create-form.component.css"]
 })
 export class TagAdminCreateFormComponent implements OnInit {
   sections: Observable<any[]>;
   parents: Observable<any[]>;
   isChildTag = false;
   isSectionChosen = false;
-  sectionOptions: String;
-  parentOptions: Object = {};
+  sectionOptions: string;
+  parentOptions: string = "";
 
   constructor(private tagService: TagsService) {}
 
@@ -26,6 +27,8 @@ export class TagAdminCreateFormComponent implements OnInit {
   }
   getParentTags(input: string) {
     this.parents = this.tagService.getParentTags(input);
-    this.isSectionChosen = true;
+    //this.isSectionChosen = true;
   }
+
+  onsubmit() {}
 }
