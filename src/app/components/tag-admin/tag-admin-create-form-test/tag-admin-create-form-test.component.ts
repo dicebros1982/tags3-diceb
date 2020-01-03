@@ -21,7 +21,7 @@ export class TagAdminCreateFormTestComponent implements OnInit {
       name: "",
       description: "",
       section: "",
-      parent: ""
+      parentTag: ""
     });
     this.tagForm.valueChanges.subscribe(console.log);
 

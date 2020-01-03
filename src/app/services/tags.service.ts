@@ -33,22 +33,20 @@ export class TagsService {
   }
 
   getParentTags(section: string) {
-    if (section) {
-      return this.db
-        .collection<ParentTag>("categoryTags", ref =>
-          ref.where("section", "==", section)
+    return this.db
+      .collection<ParentTag>("categoryTags", ref =>
+        ref.where("section", "==", section)
+      )
+      .snapshotChanges()
+      .pipe(
+        map(actions =>
+          actions.map(a => {
+            const data = a.payload.doc.data() as ParentTag;
+            const id = a.payload.doc.id;
+            console.log(data);
+            return { id, ...data };
+          })
         )
-        .snapshotChanges()
-        .pipe(
-          map(actions =>
-            actions.map(a => {
-              const data = a.payload.doc.data() as ParentTag;
-              const id = a.payload.doc.id;
-              console.log(data);
-              return { id, ...data };
-            })
-          )
-        );
-    }
+      );
   }
 }
