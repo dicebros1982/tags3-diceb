@@ -1,17 +1,20 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { TagsService } from "../../../services/tags.service";
-import { Observable } from "rxjs";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, NgForm, FormControl } from '@angular/forms';
+import { TagsService } from '../../../services/tags.service';
+import { Observable } from 'rxjs';
 
 @Component({
-  selector: "app-tag-admin-create-form",
-  templateUrl: "./tag-admin-create-form.component.html",
-  styleUrls: ["./tag-admin-create-form.component.css"]
+  selector: 'app-tag-admin-create-form',
+  templateUrl: './tag-admin-create-form.component.html',
+  styleUrls: ['./tag-admin-create-form.component.css']
 })
 export class TagAdminCreateFormComponent implements OnInit {
   tagForm: FormGroup;
   sections: Observable<any[]>;
   parents: Observable<any[]>;
+  isSuccess: boolean = false;
+
+  @ViewChild('formDirective', { static: false }) private formDirective: NgForm;
 
   constructor(private fb: FormBuilder, private tagService: TagsService) {}
 
@@ -22,11 +25,11 @@ export class TagAdminCreateFormComponent implements OnInit {
   }
   buildForm() {
     this.tagForm = this.fb.group({
-      relation: ["parent"],
-      name: ["", [Validators.required, Validators.pattern("#\\w+")]],
-      description: ["", [Validators.required]],
-      section: ["", [Validators.required]],
-      parentTag: [""]
+      relation: ['parent'],
+      name: ['', [Validators.required, Validators.pattern('#\\w+')]],
+      description: ['', [Validators.required]],
+      section: ['', [Validators.required]],
+      parentTag: ['']
     });
   }
 
@@ -39,13 +42,13 @@ export class TagAdminCreateFormComponent implements OnInit {
   }
   // dynamically set validators, depending on if it is a parent or a child tag
   setRelationValidators() {
-    const parentTagControl = this.tagForm.get("parentTag");
+    const parentTagControl = this.tagForm.get('parentTag');
 
-    this.tagForm.get("relation").valueChanges.subscribe(relation => {
-      if (relation === "parent") {
+    this.tagForm.get('relation').valueChanges.subscribe(relation => {
+      if (relation === 'parent') {
         parentTagControl.setValidators(null);
       }
-      if (relation === "child") {
+      if (relation === 'child') {
         parentTagControl.setValidators([Validators.required]);
       }
       parentTagControl.updateValueAndValidity();
@@ -53,25 +56,36 @@ export class TagAdminCreateFormComponent implements OnInit {
   }
   // getters for displaying validation errors
   get name() {
-    return this.tagForm.get("name");
+    return this.tagForm.get('name');
   }
   get description() {
-    return this.tagForm.get("description");
+    return this.tagForm.get('description');
   }
   get section() {
-    return this.tagForm.get("section");
+    return this.tagForm.get('section');
   }
   get parentTag() {
-    return this.tagForm.get("parentTag");
+    return this.tagForm.get('parentTag');
   }
 
-  onSubmit() {
+  async onSubmit() {
     const relation = this.tagForm.value.relation;
-    if (relation === "parent") {
-      this.submitParent();
-    }
-    if (relation === "child") {
-      this.submitChild();
+
+    try {
+      if (relation === 'parent') {
+        this.submitParent();
+      }
+      if (relation === 'child') {
+        this.submitChild();
+      }
+      this.isSuccess = true;
+      this.formDirective.resetForm();
+
+      this.buildForm();
+
+      this.tagForm.value.relation = 'parent';
+    } catch (error) {
+      console.log(error);
     }
   }
   submitParent() {
@@ -87,6 +101,6 @@ export class TagAdminCreateFormComponent implements OnInit {
   }
 
   submitChild() {
-    console.log("child");
+    console.log('child');
   }
 }

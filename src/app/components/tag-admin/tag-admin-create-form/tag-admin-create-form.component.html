@@ -1,60 +1,71 @@
 <mat-card>
-	<mat-card-content>
-		<form [formGroup]="tagForm" (ngSubmit)="onSubmit()">
-			<p>
-				<mat-radio-group color="primary" formControlName="relation">
-					<mat-radio-button class="radio_btn" [checked]="true" value="parent">parent tag</mat-radio-button>
-					<mat-radio-button class="radio_btn" value="child" #isChild>child tag</mat-radio-button>
-				</mat-radio-group>
-			</p>
-			<p>
-				<mat-form-field>
-					<input matInput placeholder="name" formControlName="name"/>
-					<mat-error *ngIf="name.errors?.required">
-						A name for your hashtag is required.
-					</mat-error>
+  <mat-card-content>
+    <div *ngIf="isSuccess">
+      Your hashtag was uploaded
+    </div>
+    <form [formGroup]="tagForm" (ngSubmit)="onSubmit()" #formDirective="ngForm">
+      <p>
+        <mat-radio-group color="primary" formControlName="relation">
+          <mat-radio-button class="radio_btn" [checked]="true" value="parent"
+            >parent tag</mat-radio-button
+          >
+          <mat-radio-button class="radio_btn" value="child" #isChild>child tag</mat-radio-button>
+        </mat-radio-group>
+      </p>
+      <p>
+        <mat-form-field>
+          <input matInput placeholder="name" formControlName="name" />
+          <mat-error *ngIf="name.errors?.required">
+            A name for your hashtag is required.
+          </mat-error>
           <mat-error *ngIf="name.errors?.pattern">
-						Your hashtag has to start with a "#" and cannot contain any other special characters
-					</mat-error>
-				</mat-form-field>
-			</p>
-			<p>
-				<mat-form-field>
-					<input matInput placeholder="description"  formControlName="description"/>
-					<mat-error *ngIf="description.invalid">
-						A description for your hashtag is required.
-					</mat-error>
-				</mat-form-field>
-			</p>
-			<p>
-				<mat-form-field>
-					<mat-label>section</mat-label>
-					<mat-select (ngModelChange)="getParentTags($event)" formControlName="section" #sectionSelected>
-						<mat-option *ngFor="let section of sections | async" [value]="section.id">{{
+            Your hashtag has to start with a "#" and cannot contain any other special characters
+          </mat-error>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field>
+          <input matInput placeholder="description" formControlName="description" />
+          <mat-error *ngIf="description.invalid">
+            A description for your hashtag is required.
+          </mat-error>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field>
+          <mat-label>section</mat-label>
+          <mat-select
+            (ngModelChange)="getParentTags($event)"
+            formControlName="section"
+            #sectionSelected
+          >
+            <mat-option *ngFor="let section of sections | async" [value]="section.id">{{
               section.name
             }}</mat-option>
-					</mat-select>
-					<mat-error *ngIf="section.invalid">
-						Please select a section, for your hashtag to appear in.
-					</mat-error>
-				</mat-form-field>
-			</p>
-			<div *ngIf="isChild.checked && !sectionSelected.empty">
-				<p>
-					<mat-form-field>
-						<mat-label>parent tag</mat-label>
-						<mat-select formControlName="parentTag">
-							<mat-option *ngFor="let parent of parents | async" [value]="parent.id">{{
-              parent.name
-            }}</mat-option>
-						</mat-select>
-						<mat-error *ngIf="parentTag.invalid">
-							Please select a hashtag that will act as the parent for your hashtag.
-						</mat-error>
-					</mat-form-field>
-				</p>
-			</div>
-			<button class="form-btn" [disabled]="tagForm.invalid" mat-raised-button color="primary">create</button>
-		</form>
-	</mat-card-content>
+          </mat-select>
+          <mat-error *ngIf="section.invalid">
+            Please select a section, for your hashtag to appear in.
+          </mat-error>
+        </mat-form-field>
+      </p>
+      <div *ngIf="isChild.checked && !sectionSelected.empty">
+        <p>
+          <mat-form-field>
+            <mat-label>parent tag</mat-label>
+            <mat-select formControlName="parentTag">
+              <mat-option *ngFor="let parent of parents | async" [value]="parent.id">{{
+                parent.name
+              }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="parentTag.invalid">
+              Please select a hashtag that will act as the parent for your hashtag.
+            </mat-error>
+          </mat-form-field>
+        </p>
+      </div>
+      <button class="form-btn" [disabled]="tagForm.invalid" mat-raised-button color="primary">
+        create
+      </button>
+    </form>
+  </mat-card-content>
 </mat-card>
